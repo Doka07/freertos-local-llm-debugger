@@ -47,7 +47,7 @@ To regenerate the report from saved verdicts without new model calls:
 PYTHONPATH=. .venv/bin/python scripts/benchmark_v2.py --reuse-verdicts
 ```
 
-The recorded environment is FreeRTOS Kernel V11.3.1, QEMU 8.2.2, `arm-none-eabi-gcc` 13.2.1, Ollama v0.33.3, and `qwen2.5-coder:14b`. Raw `artifacts/`, ground-truth `labels/`, injected fault sources, build products, and local model data remain excluded to preserve the blinded evaluation boundary and avoid stale generated outputs. The committed reports and synthetic fixtures are the public benchmark record. See the publication files and coordination notes for limitations.
+The recorded environment is FreeRTOS Kernel V11.3.1, QEMU 8.2.2, `arm-none-eabi-gcc` 13.2.1, Ollama v0.33.3, and `qwen2.5-coder:14b`. A clean public checkout can build the healthy baseline; reproducing the four injected fault cases and the original scored model run additionally requires the private injection/label package and local Ollama model. Raw `artifacts/`, ground-truth `labels/`, injected fault sources, build products, and local model data remain excluded to preserve the blinded evaluation boundary and avoid stale generated outputs. The committed reports and synthetic fixtures are the public benchmark record. See the publication files and coordination notes for limitations.
 
 ## Quick start
 
