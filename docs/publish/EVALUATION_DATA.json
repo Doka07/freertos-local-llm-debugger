@@ -14,7 +14,7 @@
     {
       "case_id": "case_001",
       "scenario": "AB-BA Mutual Lock Acquisition Deadlock",
-      "injection_file": "firmware/injections/case_001_deadlock.c",
+      "scenario_source": "private fault injection; implementation not published",
       "ground_truth": {
         "is_fault": true,
         "failure_class": "DEADLOCK_LOCK_ORDER",
@@ -52,7 +52,7 @@
     {
       "case_id": "case_002",
       "scenario": "Unboosted Binary Semaphore Priority Inversion",
-      "injection_file": "firmware/injections/case_002_priority_inversion.c",
+      "scenario_source": "private fault injection; implementation not published",
       "ground_truth": {
         "is_fault": true,
         "failure_class": "PRIORITY_INVERSION",
@@ -85,7 +85,7 @@
     {
       "case_id": "case_003",
       "scenario": "Dropped Hardware Timer IRQ Task Notification",
-      "injection_file": "firmware/injections/case_003_missed_isr.c",
+      "scenario_source": "private fault injection; implementation not published",
       "ground_truth": {
         "is_fault": true,
         "failure_class": "MISSED_ISR_NOTIFICATION",
@@ -115,7 +115,7 @@
     {
       "case_id": "case_004",
       "scenario": "Single Mutex Unreleased Leak",
-      "injection_file": "firmware/injections/case_004_missing_release.c",
+      "scenario_source": "private fault injection; implementation not published",
       "ground_truth": {
         "is_fault": true,
         "failure_class": "MISSING_MUTEX_RELEASE",
@@ -147,7 +147,7 @@
     {
       "case_id": "case_005",
       "scenario": "Healthy 4-Task Producer-Consumer Baseline",
-      "injection_file": "firmware/src/main.c",
+      "scenario_source": "firmware/src/main.c",
       "ground_truth": {
         "is_fault": false,
         "failure_class": "NONE",
