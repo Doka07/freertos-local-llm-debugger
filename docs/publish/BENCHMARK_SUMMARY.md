@@ -69,11 +69,11 @@ NONE               0         0          0            0        1
 
 ## 4. Key Artifact Locations
 
-- **Firmware Baseline:** [`firmware/src/main.c`](file:///home/denis/Desktop/Projects/freertos-local-llm-debugger/firmware/src/main.c), [`firmware/src/trace.c`](file:///home/denis/Desktop/Projects/freertos-local-llm-debugger/firmware/src/trace.c)
+- **Firmware Baseline:** [`firmware/src/main.c`](../firmware/src/main.c), [`firmware/src/trace.c`](../firmware/src/trace.c)
 - **Fault Injections:** private experiment sources; not included in the public repository.
 - **Ground Truth Labels:** private evaluation labels; not included in the public repository.
-- **Deterministic Baseline Detector:** [`evaluation/baselines/graph_detector.py`](file:///home/denis/Desktop/Projects/freertos-local-llm-debugger/evaluation/baselines/graph_detector.py)
-- **Automated Scorer:** [`evaluation/scorer.py`](file:///home/denis/Desktop/Projects/freertos-local-llm-debugger/evaluation/scorer.py)
-- **Model Client & Grammar Enforcer:** [`pipeline/client.py`](file:///home/denis/Desktop/Projects/freertos-local-llm-debugger/pipeline/client.py)
-- **Comparative Benchmark Runner:** [`scripts/benchmark_v2.py`](file:///home/denis/Desktop/Projects/freertos-local-llm-debugger/scripts/benchmark_v2.py)
-- **LinkedIn Article Draft:** [`publish/LINKEDIN_ARTICLE_DRAFT.md`](file:///home/denis/Desktop/Projects/freertos-local-llm-debugger/publish/LINKEDIN_ARTICLE_DRAFT.md)
+- **Deterministic Baseline Detector:** [`evaluation/baselines/graph_detector.py`](../evaluation/baselines/graph_detector.py)
+- **Automated Scorer:** [`evaluation/scorer.py`](../evaluation/scorer.py)
+- **Model Client & Grammar Enforcer:** [`pipeline/client.py`](../pipeline/client.py)
+- **Comparative Benchmark Runner:** [`scripts/benchmark_v2.py`](../scripts/benchmark_v2.py)
+- **LinkedIn Article Draft:** [`publish/LINKEDIN_ARTICLE_DRAFT.md`](LINKEDIN_ARTICLE_DRAFT.md)
