@@ -1,0 +1,174 @@
+{
+  "benchmark_metadata": {
+    "benchmark_name": "FreeRTOS Local LLM Concurrency Debugger",
+    "version": "1.0",
+    "date": "2026-09-04",
+    "target": "ARM Cortex-M3 (mps2-an385)",
+    "rtos": "FreeRTOS Kernel V11.3.1",
+    "qemu_version": "8.2.2",
+    "local_model": "qwen2.5-coder:14b",
+    "local_serving": "Ollama v0.33.3 on NVIDIA GeForce RTX 5080",
+    "baseline": "Deterministic 120-line Tarjan Wait-For-Graph Cycle Detector"
+  },
+  "cases": [
+    {
+      "case_id": "case_001",
+      "scenario": "AB-BA Mutual Lock Acquisition Deadlock",
+      "scenario_source": "private fault injection; implementation not published",
+      "ground_truth": {
+        "is_fault": true,
+        "failure_class": "DEADLOCK_LOCK_ORDER",
+        "culprit_tasks": [
+          "taskA",
+          "taskB"
+        ],
+        "culprit_objects": [
+          "mtx1",
+          "mtx2"
+        ]
+      },
+      "local_qwen_14b": {
+        "is_fault": true,
+        "predicted_class": "DEADLOCK_LOCK_ORDER",
+        "confidence": 0.95,
+        "class_match": true,
+        "task_jaccard": 1.0,
+        "object_jaccard": 1.0,
+        "evidence_valid": true,
+        "latency_seconds": 4.82
+      },
+      "deterministic_baseline": {
+        "is_fault": true,
+        "predicted_class": "DEADLOCK_LOCK_ORDER",
+        "class_match": true,
+        "cycle_detected": [
+          "taskA",
+          "mtx2",
+          "taskB",
+          "mtx1"
+        ]
+      }
+    },
+    {
+      "case_id": "case_002",
+      "scenario": "Unboosted Binary Semaphore Priority Inversion",
+      "scenario_source": "private fault injection; implementation not published",
+      "ground_truth": {
+        "is_fault": true,
+        "failure_class": "PRIORITY_INVERSION",
+        "culprit_tasks": [
+          "taskD",
+          "taskB"
+        ],
+        "culprit_objects": [
+          "sem1"
+        ]
+      },
+      "local_qwen_14b": {
+        "is_fault": true,
+        "predicted_class": "DEADLOCK_LOCK_ORDER",
+        "confidence": 0.95,
+        "class_match": false,
+        "task_jaccard": 0.667,
+        "object_jaccard": 1.0,
+        "evidence_valid": true,
+        "failure_mode": "Grounded Misclassification",
+        "latency_seconds": 4.83
+      },
+      "deterministic_baseline": {
+        "is_fault": false,
+        "predicted_class": "NONE",
+        "class_match": false,
+        "baseline_guard": "Proves 0 cycles exist (vetoes false deadlock)"
+      }
+    },
+    {
+      "case_id": "case_003",
+      "scenario": "Dropped Hardware Timer IRQ Task Notification",
+      "scenario_source": "private fault injection; implementation not published",
+      "ground_truth": {
+        "is_fault": true,
+        "failure_class": "MISSED_ISR_NOTIFICATION",
+        "culprit_tasks": [
+          "taskC"
+        ],
+        "culprit_objects": []
+      },
+      "local_qwen_14b": {
+        "is_fault": true,
+        "predicted_class": "DEADLOCK_LOCK_ORDER",
+        "confidence": 0.9,
+        "class_match": false,
+        "task_jaccard": 0.0,
+        "object_jaccard": 0.0,
+        "evidence_valid": false,
+        "failure_mode": "Unanchored Confabulation (hallucinated lockA/lockB)",
+        "latency_seconds": 4.35
+      },
+      "deterministic_baseline": {
+        "is_fault": false,
+        "predicted_class": "NONE",
+        "class_match": false,
+        "baseline_guard": "Proves 0 cycles exist (vetoes false deadlock)"
+      }
+    },
+    {
+      "case_id": "case_004",
+      "scenario": "Single Mutex Unreleased Leak",
+      "scenario_source": "private fault injection; implementation not published",
+      "ground_truth": {
+        "is_fault": true,
+        "failure_class": "MISSING_MUTEX_RELEASE",
+        "culprit_tasks": [
+          "taskA"
+        ],
+        "culprit_objects": [
+          "mtx1"
+        ]
+      },
+      "local_qwen_14b": {
+        "is_fault": true,
+        "predicted_class": "DEADLOCK_LOCK_ORDER",
+        "confidence": 0.95,
+        "class_match": false,
+        "task_jaccard": 0.5,
+        "object_jaccard": 1.0,
+        "evidence_valid": true,
+        "failure_mode": "Grounded Misclassification (1-mutex circular deadlock impossibility)",
+        "latency_seconds": 3.76
+      },
+      "deterministic_baseline": {
+        "is_fault": false,
+        "predicted_class": "NONE",
+        "class_match": false,
+        "baseline_guard": "Proves 0 cycles exist (vetoes false deadlock)"
+      }
+    },
+    {
+      "case_id": "case_005",
+      "scenario": "Healthy 4-Task Producer-Consumer Baseline",
+      "scenario_source": "firmware/src/main.c",
+      "ground_truth": {
+        "is_fault": false,
+        "failure_class": "NONE",
+        "culprit_tasks": [],
+        "culprit_objects": []
+      },
+      "local_qwen_14b": {
+        "is_fault": false,
+        "predicted_class": "NONE",
+        "confidence": 1.0,
+        "class_match": true,
+        "task_jaccard": 1.0,
+        "object_jaccard": 1.0,
+        "evidence_valid": true,
+        "latency_seconds": 1.95
+      },
+      "deterministic_baseline": {
+        "is_fault": false,
+        "predicted_class": "NONE",
+        "class_match": true
+      }
+    }
+  ]
+}
