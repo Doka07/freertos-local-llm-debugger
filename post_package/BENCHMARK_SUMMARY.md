@@ -1,6 +1,6 @@
 # Benchmark Technical Summary & Reproducibility Package
 
-- **Repository:** `freertos-local-llm-debugger`
+- **Repository:** https://github.com/Doka07/freertos-local-llm-debugger
 - **Release Version:** v1.0-gate5
 - **Date:** 2026-09-04
 - **Hardware Target:** ARM Cortex-M3 (`mps2-an385`) running FreeRTOS Kernel V11.3.1 on QEMU 8.2.2

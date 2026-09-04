@@ -100,4 +100,6 @@ We built a 120-line deterministic wait-for-graph cycle detector in Python using 
 What has been your experience running local code models against real low-level firmware? Drop your thoughts below! 👇
 
 ---
+*Repository: https://github.com/Doka07/freertos-local-llm-debugger*
+
 *The public repository contains the FreeRTOS Cortex-M3 baseline, QEMU runner, reducer, evaluation scripts, benchmark reports, and synthetic fixtures. The four private fault-injection sources and ground-truth labels are withheld; see the README for the exact reproduction boundary.*
