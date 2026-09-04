@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://freertos-local-llm-debugger/schemas/verdict.schema.json",
+  "title": "DiagnosisVerdict",
+  "description": "Structured diagnosis verdict emitted by local LLM under test.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "case_id",
+    "is_fault",
+    "failure_class",
+    "confidence",
+    "culprit_tasks",
+    "culprit_objects",
+    "evidence",
+    "recommended_fix"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": [
+        "1.0"
+      ]
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$"
+    },
+    "is_fault": {
+      "type": "boolean"
+    },
+    "failure_class": {
+      "type": "string",
+      "enum": [
+        "DEADLOCK_LOCK_ORDER",
+        "PRIORITY_INVERSION",
+        "MISSED_ISR_NOTIFICATION",
+        "MISSING_MUTEX_RELEASE",
+        "NONE"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 100.0
+    },
+    "culprit_tasks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9_]+$"
+      }
+    },
+    "culprit_objects": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9_]+$"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "ref",
+          "claim"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "ref": {
+            "type": "string",
+            "pattern": "^(evt-[0-9]{6}|src-[0-9]{6}|reg-[a-zA-Z0-9_]+)$"
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "recommended_fix": {
+      "type": "string"
+    }
+  }
+}

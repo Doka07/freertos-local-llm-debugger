@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "case_id": "case_001",
+  "system_info": {
+    "target": "ARM Cortex-M3 (QEMU mps2-an385)",
+    "tick_rate_hz": 1000,
+    "max_priorities": 5
+  },
+  "task_table": [
+    {
+      "task_id": "taskA",
+      "base_priority": 2,
+      "effective_priority": 2,
+      "state": "BLOCKED",
+      "blocked_on": "mtx2"
+    },
+    {
+      "task_id": "taskB",
+      "base_priority": 2,
+      "effective_priority": 2,
+      "state": "BLOCKED",
+      "blocked_on": "mtx1"
+    },
+    {
+      "task_id": "taskC",
+      "base_priority": 3,
+      "effective_priority": 3,
+      "state": "READY",
+      "blocked_on": null
+    },
+    {
+      "task_id": "taskD",
+      "base_priority": 1,
+      "effective_priority": 1,
+      "state": "READY",
+      "blocked_on": null
+    }
+  ],
+  "resource_table": [
+    {
+      "res_id": "mtx1",
+      "type": "MUTEX",
+      "owner": "taskA",
+      "wait_list": ["taskB"]
+    },
+    {
+      "res_id": "mtx2",
+      "type": "MUTEX",
+      "owner": "taskB",
+      "wait_list": ["taskA"]
+    }
+  ],
+  "fault_registers": {
+    "hardfault_active": false,
+    "cfsr": "0x00000000",
+    "hfsr": "0x00000000",
+    "mmfar": null,
+    "bfar": null,
+    "pc": null,
+    "lr": null,
+    "active_irq": null
+  },
+  "trace_events": [
+    {
+      "id": "evt-000101",
+      "seq": 101,
+      "tick": 10,
+      "task": "taskA",
+      "prio": 2,
+      "event": "MTX_TAKE",
+      "res": "mtx1",
+      "ret": "OK"
+    },
+    {
+      "id": "evt-000102",
+      "seq": 102,
+      "tick": 12,
+      "task": "taskB",
+      "prio": 2,
+      "event": "MTX_TAKE",
+      "res": "mtx2",
+      "ret": "OK"
+    },
+    {
+      "id": "evt-000103",
+      "seq": 103,
+      "tick": 15,
+      "task": "taskA",
+      "prio": 2,
+      "event": "MTX_TAKE",
+      "res": "mtx2",
+      "ret": "BLOCK"
+    },
+    {
+      "id": "evt-000104",
+      "seq": 104,
+      "tick": 17,
+      "task": "taskB",
+      "prio": 2,
+      "event": "MTX_TAKE",
+      "res": "mtx1",
+      "ret": "BLOCK"
+    },
+    {
+      "id": "evt-000105",
+      "seq": 105,
+      "tick": 30,
+      "task": "monitor",
+      "prio": 4,
+      "event": "SNAPSHOT_DUMP",
+      "res": null,
+      "ret": "OK"
+    }
+  ]
+}

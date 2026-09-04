@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "case_id": "case_005",
+  "is_fault": false,
+  "failure_class": "NONE",
+  "confidence": 0.99,
+  "culprit_tasks": [],
+  "culprit_objects": [],
+  "evidence": [
+    {
+      "ref": "evt-000501",
+      "claim": "taskA acquired mtx1 cleanly and released it at evt-000502"
+    },
+    {
+      "ref": "evt-000503",
+      "claim": "taskB acquired mtx1 cleanly and released it at evt-000504"
+    },
+    {
+      "ref": "evt-000505",
+      "claim": "All tasks are making continuous forward progress with zero stalled tasks"
+    }
+  ],
+  "recommended_fix": "No fault detected; system functioning normally."
+}

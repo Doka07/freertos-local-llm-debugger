@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "case_id": "case_001",
+  "is_fault": true,
+  "failure_class": "DEADLOCK_LOCK_ORDER",
+  "confidence": 0.98,
+  "culprit_tasks": ["taskA", "taskB"],
+  "culprit_objects": ["mtx1", "mtx2"],
+  "evidence": [
+    {
+      "ref": "evt-000101",
+      "claim": "taskA acquired mtx1 at tick 10"
+    },
+    {
+      "ref": "evt-000102",
+      "claim": "taskB acquired mtx2 at tick 12"
+    },
+    {
+      "ref": "evt-000103",
+      "claim": "taskA blocked attempting to acquire mtx2 held by taskB"
+    },
+    {
+      "ref": "evt-000104",
+      "claim": "taskB blocked attempting to acquire mtx1 held by taskA, completing circular wait"
+    }
+  ],
+  "recommended_fix": "Enforce a consistent global acquisition order for mtx1 and mtx2 across both taskA and taskB."
+}

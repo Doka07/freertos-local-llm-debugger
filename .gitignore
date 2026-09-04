@@ -1,0 +1,22 @@
+# Generated build and experiment output
+build/
+artifacts/
+results/
+models/
+*.elf
+*.map
+*.bin
+*.hex
+
+# Local environments and secrets
+.venv/
+.env
+__pycache__/
+*.pyc
+
+# Keep private labels out of accidental model/evidence exports.
+labels/
+firmware/injections/
+
+# Local agent lock
+.claude/scheduled_tasks.lock

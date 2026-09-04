@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "case_id": "case_003",
+  "is_fault": true,
+  "failure_class": "MISSED_ISR_NOTIFICATION",
+  "confidence": 0.92,
+  "culprit_tasks": ["taskC"],
+  "culprit_objects": [],
+  "evidence": [
+    {
+      "ref": "evt-000301",
+      "claim": "taskC entered blocked state waiting for task notification"
+    },
+    {
+      "ref": "evt-000302",
+      "claim": "ISR executed at tick 20 but notification send was omitted"
+    },
+    {
+      "ref": "evt-000303",
+      "claim": "ISR executed at tick 30 with notification send omitted again, leaving taskC permanently starved"
+    }
+  ],
+  "recommended_fix": "Ensure the ISR timer callback properly calls xTaskNotifyFromISR() or xQueueSendFromISR() with portYIELD_FROM_ISR."
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "case_id": "case_004",
+  "is_fault": true,
+  "failure_class": "MISSING_MUTEX_RELEASE",
+  "confidence": 0.96,
+  "culprit_tasks": [
+    "taskA",
+    "taskB"
+  ],
+  "culprit_objects": [
+    "mtx1"
+  ],
+  "evidence": [
+    {
+      "ref": "evt-000401",
+      "claim": "taskA acquired mtx1 at tick 10"
+    },
+    {
+      "ref": "evt-000403",
+      "claim": "taskB blocked on mtx1 at tick 20 while taskA never emitted matching MTX_GIVE"
+    }
+  ],
+  "recommended_fix": "Add missing xSemaphoreGive(mtx1) on early return/error path in taskA."
+}

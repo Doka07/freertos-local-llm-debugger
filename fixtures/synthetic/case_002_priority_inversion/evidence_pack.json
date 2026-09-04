@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "case_id": "case_002",
+  "system_info": {
+    "target": "ARM Cortex-M3 (QEMU mps2-an385)",
+    "tick_rate_hz": 1000,
+    "max_priorities": 5
+  },
+  "task_table": [
+    {
+      "task_id": "taskD",
+      "base_priority": 1,
+      "effective_priority": 1,
+      "state": "READY",
+      "blocked_on": null
+    },
+    {
+      "task_id": "taskB",
+      "base_priority": 2,
+      "effective_priority": 2,
+      "state": "RUNNING",
+      "blocked_on": null
+    },
+    {
+      "task_id": "taskC",
+      "base_priority": 3,
+      "effective_priority": 3,
+      "state": "BLOCKED",
+      "blocked_on": "sem1"
+    },
+    {
+      "task_id": "taskA",
+      "base_priority": 2,
+      "effective_priority": 2,
+      "state": "READY",
+      "blocked_on": null
+    }
+  ],
+  "resource_table": [
+    {
+      "res_id": "sem1",
+      "type": "BINARY_SEMAPHORE",
+      "owner": "taskD",
+      "wait_list": ["taskC"]
+    }
+  ],
+  "fault_registers": {
+    "hardfault_active": false,
+    "cfsr": "0x00000000",
+    "hfsr": "0x00000000",
+    "mmfar": null,
+    "bfar": null,
+    "pc": null,
+    "lr": null,
+    "active_irq": null
+  },
+  "trace_events": [
+    {
+      "id": "evt-000201",
+      "seq": 201,
+      "tick": 20,
+      "task": "taskD",
+      "prio": 1,
+      "event": "SEM_TAKE",
+      "res": "sem1",
+      "ret": "OK"
+    },
+    {
+      "id": "evt-000202",
+      "seq": 202,
+      "tick": 25,
+      "task": "taskC",
+      "prio": 3,
+      "event": "SEM_TAKE",
+      "res": "sem1",
+      "ret": "BLOCK"
+    },
+    {
+      "id": "evt-000203",
+      "seq": 203,
+      "tick": 26,
+      "task": "taskB",
+      "prio": 2,
+      "event": "CTX_SWITCH",
+      "res": null,
+      "ret": "OK"
+    },
+    {
+      "id": "evt-000204",
+      "seq": 204,
+      "tick": 50,
+      "task": "monitor",
+      "prio": 4,
+      "event": "SNAPSHOT_DUMP",
+      "res": null,
+      "ret": "OK"
+    }
+  ]
+}

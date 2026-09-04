@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "case_id": "case_002",
+  "is_fault": true,
+  "failure_class": "PRIORITY_INVERSION",
+  "confidence": 0.94,
+  "culprit_tasks": ["taskB", "taskD"],
+  "culprit_objects": ["sem1"],
+  "evidence": [
+    {
+      "ref": "evt-000201",
+      "claim": "taskD (prio 1) acquired binary semaphore sem1"
+    },
+    {
+      "ref": "evt-000202",
+      "claim": "taskC (prio 3) blocked waiting for sem1"
+    },
+    {
+      "ref": "evt-000203",
+      "claim": "taskB (prio 2) preempted taskD while taskD effective_priority remained unboosted at 1"
+    },
+    {
+      "ref": "evt-000204",
+      "claim": "High priority taskC starved by intermediate priority taskB due to absence of priority inheritance on sem1"
+    }
+  ],
+  "recommended_fix": "Replace binary semaphore sem1 with a FreeRTOS mutex (xSemaphoreCreateMutex) to enable priority inheritance and prevent starvation of taskC."
+}

@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "case_id": "case_004",
+  "system_info": {
+    "target": "ARM Cortex-M3 (QEMU mps2-an385)",
+    "tick_rate_hz": 1000,
+    "max_priorities": 5
+  },
+  "task_table": [
+    {
+      "task_id": "taskA",
+      "base_priority": 2,
+      "effective_priority": 2,
+      "state": "READY",
+      "blocked_on": null
+    },
+    {
+      "task_id": "taskB",
+      "base_priority": 2,
+      "effective_priority": 2,
+      "state": "BLOCKED",
+      "blocked_on": "mtx1"
+    },
+    {
+      "task_id": "taskC",
+      "base_priority": 3,
+      "effective_priority": 3,
+      "state": "READY",
+      "blocked_on": null
+    },
+    {
+      "task_id": "taskD",
+      "base_priority": 1,
+      "effective_priority": 1,
+      "state": "READY",
+      "blocked_on": null
+    }
+  ],
+  "resource_table": [
+    {
+      "res_id": "mtx1",
+      "type": "MUTEX",
+      "owner": "taskA",
+      "wait_list": ["taskB"]
+    }
+  ],
+  "fault_registers": {
+    "hardfault_active": false,
+    "cfsr": "0x00000000",
+    "hfsr": "0x00000000",
+    "mmfar": null,
+    "bfar": null,
+    "pc": null,
+    "lr": null,
+    "active_irq": null
+  },
+  "trace_events": [
+    {
+      "id": "evt-000401",
+      "seq": 401,
+      "tick": 10,
+      "task": "taskA",
+      "prio": 2,
+      "event": "MTX_TAKE",
+      "res": "mtx1",
+      "ret": "OK"
+    },
+    {
+      "id": "evt-000402",
+      "seq": 402,
+      "tick": 15,
+      "task": "taskA",
+      "prio": 2,
+      "event": "CTX_SWITCH",
+      "res": null,
+      "ret": "OK"
+    },
+    {
+      "id": "evt-000403",
+      "seq": 403,
+      "tick": 20,
+      "task": "taskB",
+      "prio": 2,
+      "event": "MTX_TAKE",
+      "res": "mtx1",
+      "ret": "BLOCK"
+    },
+    {
+      "id": "evt-000404",
+      "seq": 404,
+      "tick": 45,
+      "task": "monitor",
+      "prio": 4,
+      "event": "SNAPSHOT_DUMP",
+      "res": null,
+      "ret": "OK"
+    }
+  ]
+}

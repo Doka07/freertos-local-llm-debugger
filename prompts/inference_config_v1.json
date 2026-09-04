@@ -1,0 +1,9 @@
+{
+  "runtime": "ollama",
+  "model": "qwen2.5-coder:14b",
+  "temperature": 0.0,
+  "seed": 42,
+  "num_ctx": 32768,
+  "top_p": 1.0,
+  "format": "json"
+}

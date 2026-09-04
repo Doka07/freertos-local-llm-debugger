@@ -1,0 +1,172 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://freertos-local-llm-debugger/schemas/evidence_pack.schema.json",
+  "title": "EvidencePackage",
+  "description": "Blinded, token-bounded runtime evidence package for FreeRTOS root-cause diagnosis.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "case_id",
+    "system_info",
+    "task_table",
+    "resource_table",
+    "fault_registers",
+    "trace_events"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": ["1.0"]
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$"
+    },
+    "system_info": {
+      "type": "object",
+      "required": ["target", "tick_rate_hz", "max_priorities"],
+      "additionalProperties": false,
+      "properties": {
+        "target": { "type": "string" },
+        "tick_rate_hz": { "type": "integer", "minimum": 1 },
+        "max_priorities": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "task_table": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "task_id",
+          "base_priority",
+          "effective_priority",
+          "state",
+          "blocked_on"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "task_id": { "type": "string", "pattern": "^[a-zA-Z0-9_]+$" },
+          "base_priority": { "type": "integer", "minimum": 0 },
+          "effective_priority": { "type": "integer", "minimum": 0 },
+          "state": {
+            "type": "string",
+            "enum": ["READY", "BLOCKED", "SUSPENDED", "DELETED", "RUNNING"]
+          },
+          "blocked_on": {
+            "type": ["string", "null"]
+          }
+        }
+      }
+    },
+    "resource_table": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["res_id", "type", "owner", "wait_list"],
+        "additionalProperties": false,
+        "properties": {
+          "res_id": { "type": "string", "pattern": "^[a-zA-Z0-9_]+$" },
+          "type": {
+            "type": "string",
+            "enum": ["MUTEX", "BINARY_SEMAPHORE", "COUNTING_SEMAPHORE", "QUEUE"]
+          },
+          "owner": {
+            "type": ["string", "null"]
+          },
+          "wait_list": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "fault_registers": {
+      "type": "object",
+      "required": [
+        "hardfault_active",
+        "cfsr",
+        "hfsr",
+        "mmfar",
+        "bfar",
+        "pc",
+        "lr",
+        "active_irq"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "hardfault_active": { "type": "boolean" },
+        "cfsr": { "type": "string", "pattern": "^0x[0-9a-fA-F]{8}$" },
+        "hfsr": { "type": "string", "pattern": "^0x[0-9a-fA-F]{8}$" },
+        "mmfar": { "type": ["string", "null"], "pattern": "^0x[0-9a-fA-F]{8}$" },
+        "bfar": { "type": ["string", "null"], "pattern": "^0x[0-9a-fA-F]{8}$" },
+        "pc": { "type": ["string", "null"], "pattern": "^0x[0-9a-fA-F]{8}$" },
+        "lr": { "type": ["string", "null"], "pattern": "^0x[0-9a-fA-F]{8}$" },
+        "active_irq": { "type": ["integer", "null"] }
+      }
+    },
+    "trace_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "seq",
+          "tick",
+          "task",
+          "prio",
+          "event",
+          "res",
+          "ret"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^evt-[0-9]{6}$" },
+          "seq": { "type": "integer", "minimum": 0 },
+          "tick": { "type": "integer", "minimum": 0 },
+          "task": { "type": "string" },
+          "prio": { "type": "integer", "minimum": 0 },
+          "event": {
+            "type": "string",
+            "enum": [
+              "CTX_SWITCH",
+              "MTX_TAKE",
+              "MTX_GIVE",
+              "SEM_TAKE",
+              "SEM_GIVE",
+              "Q_SEND",
+              "Q_RECV",
+              "ENTER_CRIT",
+              "EXIT_CRIT",
+              "ISR_ENTER",
+              "ISR_EXIT",
+              "NOTIFY_WAIT",
+              "NOTIFY_SEND",
+              "SNAPSHOT_DUMP"
+            ]
+          },
+          "res": { "type": ["string", "null"] },
+          "ret": {
+            "type": "string",
+            "enum": ["OK", "BLOCK", "TIMEOUT", "ERR", "OMITTED"]
+          }
+        }
+      }
+    },
+    "source_excerpts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "file", "start_line", "end_line", "content"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^src-[0-9]{6}$" },
+          "file": { "type": "string", "pattern": "^[a-zA-Z0-9_\\.-]+$" },
+          "start_line": { "type": "integer", "minimum": 1 },
+          "end_line": { "type": "integer", "minimum": 1 },
+          "content": { "type": "string" }
+        }
+      }
+    }
+  }
+}
